@@ -1,90 +1,87 @@
-# HHD68-SH (Stop Hunt Strategy)
+# HHD68-SH (Stop Hunt Strategy EA for MT5)
+
+## 📥 Download
+
+**Main File**: [`HHD68_STOPHUNT_v16.0-(MT5).mq5`](HHD68_STOPHUNT_v16.0-(MT5).mq5) ⬅️ **Click để tải xuống / Click to download**
+
+---
+
+## Hướng Dẫn Nhanh / Quick Guide
+
+### 🇻🇳 Tiếng Việt
+
+**Cài đặt đơn giản:**
+1. Tải file `HHD68_STOPHUNT_v16.0-(MT5).mq5` ở trên
+2. Copy vào thư mục `Experts` của MT5
+3. Mở MetaEditor (F4) và compile (F7)
+4. Kéo EA vào biểu đồ
+5. Bật AutoTrading
+
+**Đọc thêm**: [QUICKSTART.md](QUICKSTART.md) - Hướng dẫn chi tiết bằng tiếng Anh
+
+### 🇬🇧 English
+
+**Simple Installation:**
+1. Download `HHD68_STOPHUNT_v16.0-(MT5).mq5` above
+2. Copy to MT5 `Experts` folder
+3. Open MetaEditor (F4) and compile (F7)
+4. Drag EA to chart
+5. Enable AutoTrading
+
+**Read more**: [QUICKSTART.md](QUICKSTART.md) - Detailed setup guide
+
+---
 
 ## Overview
 This Expert Advisor (EA) implements a Stop Hunt trading strategy for MT5, replacing the previous Ichimoku-based signal logic.
 
-## Stop Hunt Strategy
+## Chiến Lược / Strategy
 
-The EA now uses the following signal detection methodology:
+**Stop Hunt** - Phát hiện và giao dịch khi giá "săn stoploss" và đảo chiều
 
-### Signal Detection Steps
+### Tín Hiệu Vào Lệnh / Entry Signal
 
-1. **Swing Detection**: Identify swing points with depth >= 1
-2. **Stop Hunt Identification**: Detect SH1/SH2 levels from swing points where price:
-   - Breaks beyond the swing level
-   - Reverses back through the level (stop hunt pattern)
-3. **Key Level Drawing**: Draw horizontal lines at Stop Hunt levels
-4. **Range Calculation**: Calculate the range from SH level to current price
-5. **Retest Zone**: Define Fibonacci retest zone:
-   - 38.2% - 78.6% retracement of the range
-6. **Volume Confirmation**: Find swings with volume < 80% of SMA(20)
-7. **LTF BOS (Break of Structure)**: Confirm on lower timeframe:
-   - For BUY: Current close > previous candle high
-   - For SELL: Current close < previous candle low
+EA tự động tìm các điều kiện sau:
+1. ✅ Phát hiện Stop Hunt (SH1/SH2)
+2. ✅ Giá trong vùng Fibonacci (38.2-78.6%)
+3. ✅ Volume thấp (< 80% trung bình)
+4. ✅ Break of Structure trên khung nhỏ
+5. ✅ ADX & RSI (nếu bật)
 
-### Entry Conditions
+### Quản Lý Rủi Ro / Risk Management
 
-All the following must be met:
-- ✅ Stop Hunt level identified (SH1 or SH2)
-- ✅ Price in Fibonacci retest zone (38.2% - 78.6%)
-- ✅ Valid swing point after SH with low volume
-- ✅ BOS confirmed on lower timeframe
-- ✅ ADX > threshold (if enabled)
-- ✅ RSI conditions met (if enabled)
-
-### Risk Management
-
-The EA maintains the same risk management system:
-- Configurable risk allocation per position (P1, P2, P3)
-- Daily loss limit protection
-- Trailing stop loss with dynamic ratcheting
+- Chia lệnh thành 3 phần (P1, P2, P3)
+- Giới hạn lỗ theo ngày
+- Trailing stop tự động
 - Break-even protection
-- Multiple position management
 
-### Features Retained
+### Tính Năng / Features
 
-- Multi-symbol dashboard
-- Auto-trading from dashboard signals
-- News filter
-- Time filter
-- Spread filter
-- Multiple entry modes (Market/Limit combinations)
-- Sophisticated SL/TP calculation
+- Dashboard đa symbol và timeframe
+- Auto-trading từ dashboard
+- Bộ lọc: News, Time, Spread, ADX, RSI
+- SL/TP dựa trên ATR
 
-## Version History
+---
 
-### v16.0 (Current)
-- **Major Change**: Replaced Ichimoku signal logic with Stop Hunt strategy
-- Swing detection based on depth >= 1
-- Stop Hunt level identification (SH1/SH2)
-- Fibonacci retest zone calculation (38.2% - 78.6%)
-- Volume analysis (< 80% SMA(20))
-- BOS (Break of Structure) confirmation on LTF
-- Updated UI labels to reflect Stop Hunt terminology
-- Maintained all risk management features
+## 📚 Tài Liệu / Documentation
 
-### v15.1 (Previous)
-- Ichimoku 2TF strategy with ADX and RSI filters
-- Kijun trend confirmation
-- Advanced trailing stop logic
+| File | Mô tả / Description |
+|------|---------------------|
+| [QUICKSTART.md](QUICKSTART.md) | Hướng dẫn cài đặt và sử dụng / Setup & usage guide |
+| [IMPLEMENTATION.md](IMPLEMENTATION.md) | Chi tiết kỹ thuật / Technical details |
+| [TESTING.md](TESTING.md) | Kiểm tra EA / Testing procedures |
+| [CHANGELOG.md](CHANGELOG.md) | Lịch sử phiên bản / Version history |
 
-## Installation
+---
 
-1. Copy `HHD68_STOPHUNT_v16.0-(MT5).mq5` to your MT5 `Experts` folder
-2. Compile in MetaEditor
-3. Attach to chart and configure inputs
-4. Enable AutoTrading
+## ⚠️ Cảnh Báo / Warning
 
-## Configuration
+- Test trên demo trước khi live / Test on demo before live
+- Bắt đầu với rủi ro nhỏ / Start with small risk
+- Không phải EA nào cũng lời / No EA is perfect
 
-Key inputs to configure:
-- **Risk Management**: Risk percent, allocation per position
-- **Filters**: ADX threshold, RSI levels
-- **Entry Mode**: Market/Limit order combinations
-- **Stop Loss**: ATR-based SL calculation
-- **Dashboard**: Symbol lists, timeframes to monitor
-
-## Author
+## 👤 Tác Giả / Author
 
 hhd68
 
