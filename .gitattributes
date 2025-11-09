@@ -1,0 +1,10 @@
+# MQL5 files are typically UTF-16 LE encoded
+*.mq5 text working-tree-encoding=UTF-16LE eol=CRLF
+*.mqh text working-tree-encoding=UTF-16LE eol=CRLF
+
+# Standard text files
+*.md text eol=lf
+*.txt text eol=lf
+
+# Binary files
+*.ex5 binary
