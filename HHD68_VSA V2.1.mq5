@@ -22,6 +22,14 @@ COrderInfo     ordInfo;
 input int InpVolumePeriod = 20;  // Volume average period
 input int InpSwingDepth = 10;    // Swing detection depth
 
+//--- Forward declarations (Fix for undeclared identifiers around line 899)
+bool IsSwingBroken_Low(double swing_price, string symbol, ENUM_TIMEFRAMES tf, int swing_index, int current_index);
+bool IsSwingBroken_High(double swing_price, string symbol, ENUM_TIMEFRAMES tf, int swing_index, int current_index);
+bool NoLowerLowBetween(int sw, int j, string symbol, ENUM_TIMEFRAMES tf);
+bool NoHigherHighBetween(int sw, int jj, string symbol, ENUM_TIMEFRAMES tf);
+bool IsSwingLowGE2(int bar, int maxDepth, string symbol, ENUM_TIMEFRAMES tf);
+bool IsSwingHighGE2(int bar, int maxDepth, string symbol, ENUM_TIMEFRAMES tf);
+
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
@@ -84,8 +92,8 @@ long CalculateAverageVolume(string symbol, ENUM_TIMEFRAMES tf, int period, int s
         }
     }
     
-    // Line 480: Type conversion issue - potential data loss
-    return (count > 0) ? totalVolume / count : 0;
+    // Fix: Explicit cast to avoid potential data loss
+    return (count > 0) ? (double)totalVolume / count : 0.0;
 }
 
 //+------------------------------------------------------------------+
@@ -99,15 +107,8 @@ bool HasLowVolume(string symbol, ENUM_TIMEFRAMES tf, int bar)
     // Check if volume is significantly lower than average
     if(currentVolume < avgVolume * 0.5)
     {
-        // Line 466: Nested function declaration - NOT ALLOWED in MQL5
-        bool CheckSWRetestVolume(int testBar)
-        {
-            long retestVol = iVolume(symbol, tf, testBar);
-            return (retestVol < avgVolume * 0.7);
-        }
-        
-        // Use the nested function
-        return CheckSWRetestVolume(bar);
+        // Fix: Call the global function instead of nested function
+        return CheckSWRetestVolume(symbol, tf, bar, avgVolume);
     }
     
     return false;
@@ -115,9 +116,13 @@ bool HasLowVolume(string symbol, ENUM_TIMEFRAMES tf, int bar)
 
 //+------------------------------------------------------------------+
 //| Check for swing retest with volume confirmation                  |
+//| Fix: Moved from nested position inside HasLowVolume to global    |
 //+------------------------------------------------------------------+
-// This function should be at global scope, not nested
-// bool CheckSWRetestVolume(int testBar) { ... }
+bool CheckSWRetestVolume(string symbol, ENUM_TIMEFRAMES tf, int testBar, long avgVolume)
+{
+    long retestVol = iVolume(symbol, tf, testBar);
+    return (retestVol < avgVolume * 0.7);
+}
 
 //+------------------------------------------------------------------+
 //| Main signal detection function                                   |
